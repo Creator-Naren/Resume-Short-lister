@@ -2,6 +2,10 @@
 
 A Python-based resume screening tool that helps shortlist candidates by comparing their skills with a job's required skills. The project reads candidate data from a CSV file, calculates match percentages, ranks candidates, and exports shortlisted results.
 
+## Live Demo
+
+Try the deployed web demo: [Resume Shortlisting System](https://creator-naren.github.io/Resume-Short-lister/)
+
 ## Overview
 
 Recruiters often need to scan many resumes against a fixed set of job requirements. This project automates a simple version of that workflow by checking candidate skills against required skills and marking candidates as `Selected` or `Not Selected` based on a configurable threshold.
@@ -16,6 +20,7 @@ Recruiters often need to scan many resumes against a fixed set of job requiremen
 - Export shortlisted candidates to a CSV file
 - Support weighted skill matching for priority skills
 - Run in interactive CLI mode or demo mode
+- Try the browser-based demo through GitHub Pages
 - Generate a LinkedIn-ready project report PDF
 
 ## Tech Stack
@@ -34,8 +39,8 @@ Recruiters often need to scan many resumes against a fixed set of job requiremen
 resume-shortlisting-system/
 ├── docs/
 │   ├── images/
+│   ├── index.html
 │   └── LinkedIn_Resume_Shortlisting_Project_Report.pdf
-├── generate_linkedin_pdf.py
 ├── resume_shortlisting_system.py
 ├── sample_resumes.csv
 ├── shortlisted_candidates.csv
@@ -74,12 +79,6 @@ Run the built-in demo:
 
 ```bash
 python resume_shortlisting_system.py --demo
-```
-
-Generate the LinkedIn project report PDF:
-
-```bash
-python generate_linkedin_pdf.py
 ```
 
 ## Matching Methods
@@ -129,7 +128,7 @@ shortlisted_candidates.csv
 A project report PDF is included here:
 
 ```text
-docs/Resume_Shortlisting_Project_Report.pdf
+docs/LinkedIn_Resume_Shortlisting_Project_Report.pdf
 ```
 
 It contains a summary of the project, screenshots, charts, and output examples suitable for sharing on LinkedIn or adding to a portfolio.

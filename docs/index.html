@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Resume Shortlisting System</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f7f8fb;
+        --panel: #ffffff;
+        --text: #18202f;
+        --muted: #697386;
+        --line: #dfe5ef;
+        --blue: #2563eb;
+        --blue-dark: #1e40af;
+        --green: #0f8a5f;
+        --red: #b42318;
+        --amber: #b45309;
+        --shadow: 0 18px 50px rgba(35, 48, 75, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.5;
+      }
+
+      button,
+      input,
+      textarea {
+        font: inherit;
+      }
+
+      .page {
+        min-height: 100vh;
+      }
+
+      .hero {
+        background:
+          linear-gradient(135deg, rgba(37, 99, 235, 0.92), rgba(15, 138, 95, 0.86)),
+          url("images/selected_candidates_chart.png") center / cover;
+        color: #ffffff;
+      }
+
+      .hero-inner,
+      .main {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .hero-inner {
+        padding: 30px 0 56px;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 58px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+        letter-spacing: 0;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        place-items: center;
+        border: 1px solid rgba(255, 255, 255, 0.42);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.14);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16);
+      }
+
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .nav a,
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        padding: 0 14px;
+        border-radius: 8px;
+        color: inherit;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .nav a {
+        border: 1px solid rgba(255, 255, 255, 0.38);
+        background: rgba(255, 255, 255, 0.12);
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.03fr) minmax(320px, 0.97fr);
+        gap: 34px;
+        align-items: center;
+      }
+
+      h1 {
+        max-width: 760px;
+        margin: 0;
+        font-size: clamp(40px, 6vw, 72px);
+        line-height: 0.96;
+        letter-spacing: 0;
+      }
+
+      .hero p {
+        max-width: 630px;
+        margin: 22px 0 0;
+        color: rgba(255, 255, 255, 0.88);
+        font-size: 18px;
+      }
+
+      .hero-card {
+        border: 1px solid rgba(255, 255, 255, 0.32);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.16);
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22);
+        overflow: hidden;
+        backdrop-filter: blur(16px);
+      }
+
+      .hero-card img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 10;
+        object-fit: contain;
+        background: #ffffff;
+      }
+
+      .hero-card-footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 16px;
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.86);
+      }
+
+      .main {
+        padding: 34px 0 56px;
+      }
+
+      .app-grid {
+        display: grid;
+        grid-template-columns: minmax(300px, 380px) minmax(0, 1fr);
+        gap: 20px;
+        align-items: start;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        box-shadow: var(--shadow);
+      }
+
+      .controls {
+        position: sticky;
+        top: 18px;
+        padding: 20px;
+      }
+
+      .panel h2 {
+        margin: 0 0 8px;
+        font-size: 22px;
+        line-height: 1.16;
+        letter-spacing: 0;
+      }
+
+      .panel p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .field {
+        display: grid;
+        gap: 8px;
+        margin-top: 18px;
+      }
+
+      label {
+        font-size: 13px;
+        font-weight: 800;
+        color: #384256;
+      }
+
+      textarea,
+      input {
+        width: 100%;
+        border: 1px solid #cfd8e6;
+        border-radius: 8px;
+        background: #ffffff;
+        color: var(--text);
+        outline: none;
+      }
+
+      textarea {
+        min-height: 92px;
+        padding: 12px;
+        resize: vertical;
+      }
+
+      input {
+        height: 44px;
+        padding: 0 12px;
+      }
+
+      textarea:focus,
+      input:focus {
+        border-color: var(--blue);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+      }
+
+      .mode {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-top: 18px;
+        padding: 4px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #f3f6fb;
+      }
+
+      .mode button,
+      .primary {
+        border: 0;
+        border-radius: 7px;
+        cursor: pointer;
+        font-weight: 800;
+      }
+
+      .mode button {
+        min-height: 38px;
+        background: transparent;
+        color: var(--muted);
+      }
+
+      .mode button.active {
+        background: #ffffff;
+        color: var(--blue-dark);
+        box-shadow: 0 6px 18px rgba(38, 52, 79, 0.12);
+      }
+
+      .primary {
+        width: 100%;
+        min-height: 46px;
+        margin-top: 20px;
+        background: var(--blue);
+        color: #ffffff;
+      }
+
+      .primary:hover {
+        background: var(--blue-dark);
+      }
+
+      .hint {
+        margin-top: 10px;
+        font-size: 13px;
+      }
+
+      .results {
+        overflow: hidden;
+      }
+
+      .summary {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .metric {
+        padding: 18px;
+        border-right: 1px solid var(--line);
+      }
+
+      .metric:last-child {
+        border-right: 0;
+      }
+
+      .metric strong {
+        display: block;
+        font-size: 28px;
+        line-height: 1;
+      }
+
+      .metric span {
+        display: block;
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 690px;
+      }
+
+      th,
+      td {
+        padding: 15px 16px;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        background: #fbfcfe;
+        color: #475166;
+        font-size: 12px;
+        text-transform: uppercase;
+      }
+
+      td {
+        font-size: 14px;
+      }
+
+      .name {
+        font-weight: 800;
+      }
+
+      .skills {
+        color: var(--muted);
+      }
+
+      .status {
+        display: inline-flex;
+        min-width: 96px;
+        justify-content: center;
+        padding: 5px 9px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .selected {
+        background: #e7f7ef;
+        color: var(--green);
+      }
+
+      .rejected {
+        background: #fff0ee;
+        color: var(--red);
+      }
+
+      .score {
+        font-weight: 900;
+      }
+
+      .bar {
+        height: 8px;
+        margin-top: 8px;
+        border-radius: 999px;
+        background: #e8edf5;
+        overflow: hidden;
+      }
+
+      .bar span {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, var(--blue), var(--green));
+      }
+
+      .report {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 210px;
+        gap: 20px;
+        align-items: center;
+        margin-top: 20px;
+        padding: 20px;
+      }
+
+      .report img {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+      }
+
+      .report a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        margin-top: 16px;
+        padding: 0 14px;
+        border-radius: 8px;
+        background: #18202f;
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 800;
+      }
+
+      .notice {
+        margin-top: 10px;
+        color: var(--amber);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      @media (max-width: 850px) {
+        .hero-grid,
+        .app-grid,
+        .report {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-inner {
+          padding-bottom: 34px;
+        }
+
+        .nav {
+          align-items: flex-start;
+          flex-direction: column;
+          margin-bottom: 38px;
+        }
+
+        .controls {
+          position: static;
+        }
+
+        .summary {
+          grid-template-columns: 1fr;
+        }
+
+        .metric {
+          border-right: 0;
+        }
+      }
+
+      @media (max-width: 520px) {
+        .hero-inner,
+        .main {
+          width: min(100% - 22px, 1120px);
+        }
+
+        .nav-actions {
+          width: 100%;
+          flex-wrap: wrap;
+        }
+
+        .nav a {
+          flex: 1;
+        }
+
+        h1 {
+          font-size: 40px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <div class="hero-inner">
+          <nav class="nav" aria-label="Primary navigation">
+            <div class="brand">
+              <span class="brand-mark" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <path d="M7 3h7l5 5v13H7V3Z" stroke="currentColor" stroke-width="2" />
+                  <path d="M14 3v6h5" stroke="currentColor" stroke-width="2" />
+                  <path d="M10 14h6M10 18h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+              </span>
+              <span>Resume Shortlisting System</span>
+            </div>
+            <div class="nav-actions">
+              <a href="#demo">Try demo</a>
+              <a href="LinkedIn_Resume_Shortlisting_Project_Report.pdf">View report</a>
+            </div>
+          </nav>
+          <div class="hero-grid">
+            <div>
+              <h1>Shortlist candidates by skill match in seconds.</h1>
+              <p>
+                Enter required job skills, set a selection threshold, and see ranked candidates with match percentages and shortlisted status.
+              </p>
+            </div>
+            <div class="hero-card" aria-label="Project output preview">
+              <img src="images/shortlist_table.png" alt="Resume shortlisting output table preview" />
+              <div class="hero-card-footer">
+                <span>Ranked candidate results</span>
+                <strong>CSV-ready output</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="main" id="demo">
+        <section class="app-grid" aria-label="Interactive resume shortlisting demo">
+          <form class="panel controls" id="shortlist-form">
+            <h2>Screen candidates</h2>
+            <p>Use comma-separated skills for basic matching, or skill:weight pairs for weighted matching.</p>
+
+            <div class="mode" role="tablist" aria-label="Matching mode">
+              <button type="button" class="active" data-mode="basic">Basic</button>
+              <button type="button" data-mode="weighted">Weighted</button>
+            </div>
+
+            <div class="field">
+              <label for="skills">Required skills</label>
+              <textarea id="skills">python, react, sql, docker</textarea>
+            </div>
+
+            <div class="field">
+              <label for="threshold">Selection threshold (%)</label>
+              <input id="threshold" type="number" min="0" max="100" value="60" />
+            </div>
+
+            <button class="primary" type="submit">Run shortlisting</button>
+            <p class="hint" id="input-hint">Example: python, react, sql, docker</p>
+            <p class="notice" id="notice" hidden></p>
+          </form>
+
+          <section class="panel results" aria-live="polite">
+            <div class="summary">
+              <div class="metric">
+                <strong id="candidate-count">8</strong>
+                <span>Candidates</span>
+              </div>
+              <div class="metric">
+                <strong id="selected-count">3</strong>
+                <span>Selected</span>
+              </div>
+              <div class="metric">
+                <strong id="average-score">50%</strong>
+                <span>Average match</span>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Rank</th>
+                    <th>Candidate</th>
+                    <th>Match</th>
+                    <th>Status</th>
+                    <th>Matched skills</th>
+                  </tr>
+                </thead>
+                <tbody id="results-body"></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="panel report" aria-label="Project report">
+          <div>
+            <h2>Project report included</h2>
+            <p>
+              The repository includes a PDF report with screenshots and output visuals for portfolio or LinkedIn sharing.
+            </p>
+            <a href="LinkedIn_Resume_Shortlisting_Project_Report.pdf">Open PDF report</a>
+          </div>
+          <img src="images/output_console.png" alt="Console output screenshot from the Python resume shortlisting project" />
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const candidates = [
+        { name: "Alice Johnson", skills: ["python", "sql", "flask", "git", "docker"] },
+        { name: "Bob Smith", skills: ["java", "spring", "sql", "react"] },
+        { name: "Carol Lee", skills: ["python", "react", "sql", "aws", "git"] },
+        { name: "David Kumar", skills: ["c++", "linux", "networking", "git"] },
+        { name: "Eva Brown", skills: ["python", "django", "rest", "postgresql", "docker"] },
+        { name: "Farhan Ali", skills: ["python", "react", "sql", "power bi", "communication"] },
+        { name: "Grace Wilson", skills: ["html", "css", "javascript", "react", "figma"] },
+        { name: "Hiro Tanaka", skills: ["python", "machine learning", "sql", "pandas", "numpy"] }
+      ];
+
+      const form = document.querySelector("#shortlist-form");
+      const skillInput = document.querySelector("#skills");
+      const thresholdInput = document.querySelector("#threshold");
+      const resultsBody = document.querySelector("#results-body");
+      const selectedCount = document.querySelector("#selected-count");
+      const candidateCount = document.querySelector("#candidate-count");
+      const averageScore = document.querySelector("#average-score");
+      const notice = document.querySelector("#notice");
+      const inputHint = document.querySelector("#input-hint");
+      const modeButtons = [...document.querySelectorAll("[data-mode]")];
+      let mode = "basic";
+
+      function titleCase(skill) {
+        return skill
+          .split(" ")
+          .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+          .join(" ");
+      }
+
+      function parseBasic(value) {
+        return value
+          .split(",")
+          .map((skill) => skill.trim().toLowerCase())
+          .filter(Boolean);
+      }
+
+      function parseWeighted(value) {
+        const weights = {};
+        value.split(",").forEach((token) => {
+          const [skill, weight] = token.split(":").map((part) => part && part.trim());
+          const numericWeight = Number(weight);
+          if (skill && Number.isFinite(numericWeight) && numericWeight > 0) {
+            weights[skill.toLowerCase()] = numericWeight;
+          }
+        });
+        return weights;
+      }
+
+      function runShortlist() {
+        notice.hidden = true;
+        const threshold = Math.max(0, Math.min(100, Number(thresholdInput.value) || 0));
+        let required = parseBasic(skillInput.value);
+        let weights = {};
+
+        if (mode === "weighted") {
+          weights = parseWeighted(skillInput.value);
+          required = Object.keys(weights);
+        }
+
+        if (!required.length) {
+          notice.textContent = mode === "weighted"
+            ? "Enter at least one weighted skill, like python:3."
+            : "Enter at least one required skill.";
+          notice.hidden = false;
+          return;
+        }
+
+        const totalWeight = mode === "weighted"
+          ? Object.values(weights).reduce((sum, weight) => sum + weight, 0)
+          : required.length;
+
+        const ranked = candidates.map((candidate) => {
+          const matched = required.filter((skill) => candidate.skills.includes(skill));
+          const score = mode === "weighted"
+            ? matched.reduce((sum, skill) => sum + weights[skill], 0) / totalWeight * 100
+            : matched.length / required.length * 100;
+
+          return {
+            ...candidate,
+            matched,
+            score: Math.round(score * 100) / 100,
+            status: score >= threshold ? "Selected" : "Not Selected"
+          };
+        }).sort((a, b) => b.score - a.score || a.name.localeCompare(b.name));
+
+        resultsBody.innerHTML = ranked.map((candidate, index) => {
+          const matched = candidate.matched.length
+            ? candidate.matched.map(titleCase).join(", ")
+            : "-";
+          const statusClass = candidate.status === "Selected" ? "selected" : "rejected";
+          return `
+            <tr>
+              <td>${index + 1}</td>
+              <td>
+                <div class="name">${candidate.name}</div>
+                <div class="skills">${candidate.skills.map(titleCase).join(", ")}</div>
+              </td>
+              <td>
+                <span class="score">${candidate.score.toFixed(2)}%</span>
+                <div class="bar" aria-hidden="true"><span style="width: ${candidate.score}%"></span></div>
+              </td>
+              <td><span class="status ${statusClass}">${candidate.status}</span></td>
+              <td>${matched}</td>
+            </tr>
+          `;
+        }).join("");
+
+        const selected = ranked.filter((candidate) => candidate.status === "Selected").length;
+        const average = ranked.reduce((sum, candidate) => sum + candidate.score, 0) / ranked.length;
+
+        candidateCount.textContent = String(ranked.length);
+        selectedCount.textContent = String(selected);
+        averageScore.textContent = `${Math.round(average)}%`;
+      }
+
+      modeButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          mode = button.dataset.mode;
+          modeButtons.forEach((item) => item.classList.toggle("active", item === button));
+          if (mode === "weighted") {
+            skillInput.value = "python:3, sql:2, react:2, docker:1";
+            inputHint.textContent = "Example: python:3, sql:2, react:2, docker:1";
+          } else {
+            skillInput.value = "python, react, sql, docker";
+            inputHint.textContent = "Example: python, react, sql, docker";
+          }
+          runShortlist();
+        });
+      });
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        runShortlist();
+      });
+
+      runShortlist();
+    </script>
+  </body>
+</html>
