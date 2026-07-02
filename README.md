@@ -129,7 +129,7 @@ shortlisted_candidates.csv
 A project report PDF is included here:
 
 ```text
-docs/LinkedIn_Resume_Shortlisting_Project_Report.pdf
+docs/Resume_Shortlisting_Project_Report.pdf
 ```
 
 It contains a summary of the project, screenshots, charts, and output examples suitable for sharing on LinkedIn or adding to a portfolio.
