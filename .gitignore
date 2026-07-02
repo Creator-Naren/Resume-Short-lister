@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+.venv/
+venv/
+env/
+
+# Tool caches / local profiles
+.npm-cache/
+.chrome-headless-profile/
+.edge-headless-profile/
+
+# IDE / OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
+
+# Build / temp
+*.log
+*.tmp
+*.temp
+
+# Keep repo focused on this project only
+assignment3_run/
+assignment4_run/
+canva_diagrams/
+$base/

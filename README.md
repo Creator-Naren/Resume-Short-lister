@@ -1,39 +1,36 @@
 # Resume Shortlisting System
 
-A Python-based resume screening tool that automates candidate shortlisting by comparing skills against job requirements. This project helps recruiters efficiently identify qualified candidates by calculating match percentages and ranking them based on skill alignment.
+A Python-based resume screening tool that helps shortlist candidates by comparing their skills with a job's required skills. The project reads candidate data from a CSV file, calculates match percentages, ranks candidates, and exports shortlisted results.
 
-## 📋 Overview
+## Overview
 
-Reviewing hundreds of resumes manually is time-consuming and error-prone. This tool streamlines the screening process by:
-- Automatically analyzing candidate skills
-- Comparing them against required job skills
-- Calculating match percentages
-- Ranking candidates for easy shortlisting
+Recruiters often need to scan many resumes against a fixed set of job requirements. This project automates a simple version of that workflow by checking candidate skills against required skills and marking candidates as `Selected` or `Not Selected` based on a configurable threshold.
 
-Perfect for recruiters, HR teams, and hiring managers looking to save time and improve candidate selection consistency.
+## Features
 
-## ✨ Features
+- Load multiple candidate resumes from a CSV file
+- Match candidate skills with required job skills
+- Calculate match percentage for every candidate
+- Rank candidates from highest to lowest match
+- Mark candidates as `Selected` or `Not Selected`
+- Export shortlisted candidates to a CSV file
+- Support weighted skill matching for priority skills
+- Run in interactive CLI mode or demo mode
+- Generate a LinkedIn-ready project report PDF
 
-- 📥 **Load Candidates**: Import multiple resumes from a CSV file
-- 🔍 **Skill Matching**: Compare candidate skills with job requirements
-- 📊 **Match Scoring**: Calculate match percentage for each candidate
-- 🏆 **Ranking**: Automatically rank candidates by match score
-- ✅ **Selection Management**: Mark candidates as Selected or Not Selected
-- 📤 **Export Results**: Save shortlisted candidates to a CSV file
-- ⚖️ **Weighted Matching**: Assign priority weights to important skills
-- 🎮 **Multiple Modes**: Run in interactive CLI or demo mode
-- 📄 **PDF Reports**: Generate LinkedIn-ready project reports
+## Tech Stack
 
-## 🛠️ Tech Stack
+- Python 3.10+
+- CSV file handling
+- Command-line interface with `argparse`
+- PDF/report generation with:
+  - `reportlab`
+  - `Pillow`
+  - `pypdf`
 
-- **Python 3.10+**
-- **CSV Handling** - Native Python CSV module
-- **CLI** - `argparse` for command-line interface
-- **PDF Generation** - `reportlab`, `Pillow`, `pypdf`
+## Project Structure
 
-## 📁 Project Structure
-
-```
+```text
 resume-shortlisting-system/
 ├── docs/
 │   ├── images/
@@ -47,141 +44,109 @@ resume-shortlisting-system/
 └── README.md
 ```
 
-## 🚀 Getting Started
+## CSV Input Format
 
-### Prerequisites
-- Python 3.10 or higher
-- pip (Python package manager)
-
-### Installation
-
-1. Clone or download this repository:
-```bash
-git clone https://github.com/Creator-Naren/Resume-Short-lister.git
-cd Resume-Short-lister
-```
-
-2. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
-
-## 💻 Usage
-
-### Basic Usage - Interactive Mode
-```bash
-python resume_shortlisting_system.py --input sample_resumes.csv
-```
-This opens an interactive prompt where you can enter required skills and select matching candidates.
-
-### Run Demo
-```bash
-python resume_shortlisting_system.py --demo
-```
-Demonstrates the system with pre-configured skills and sample resumes.
-
-### Generate PDF Report
-```bash
-python generate_linkedin_pdf.py
-```
-Creates a LinkedIn-ready PDF report of the project, perfect for portfolio sharing.
-
-## 📋 Input Format
-
-The input CSV file should follow this format:
+The input CSV file must contain these columns:
 
 ```csv
 Name,Skills
 Alice Johnson,"Python, SQL, Flask, Git, Docker"
 Bob Smith,"Java, Spring, SQL, React"
-Carol Lee,"Python, React, SQL, Docker"
 ```
 
-**Required columns:**
-- `Name` - Candidate name
-- `Skills` - Comma-separated list of candidate skills
+## Installation
 
-## 🧮 Matching Methods
+Clone or download the project, then install the required dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+## Usage
+
+Run the interactive resume shortlisting system:
+
+```bash
+python resume_shortlisting_system.py --input sample_resumes.csv
+```
+
+Run the built-in demo:
+
+```bash
+python resume_shortlisting_system.py --demo
+```
+
+Generate the LinkedIn project report PDF:
+
+```bash
+python generate_linkedin_pdf.py
+```
+
+## Matching Methods
 
 ### Basic Skill Matching
-Compares each candidate's skills with required skills:
 
-```
-Match Percentage = (Matched Required Skills / Total Required Skills) × 100
-```
+Basic matching compares each candidate's skills with the required skills and calculates a percentage:
 
-**Example:**
-- Required Skills: Python, React, SQL, Docker
-- Candidate Skills: Python, SQL, Docker
-- Match: 3/4 = **75%**
+```text
+Match Percentage = Matched Required Skills / Total Required Skills * 100
+```
 
 ### Weighted Skill Matching
-Assigns priority weights to important skills for more precise matching:
 
-```
-Python: 3
-SQL: 2
-React: 2
-Docker: 1
+Weighted matching lets important skills carry more value. For example:
+
+```text
+python:3, sql:2, react:2, docker:1
 ```
 
-This approach is ideal when some skills are more critical for the role than others.
+This is useful when some skills are more important than others for a role.
 
-## 📊 Sample Output
+## Sample Demo
 
-When running the demo, you'll see output like:
+The demo uses these required skills:
 
-**Required Skills:** Python, React, SQL, Docker
-
-**Shortlisted Candidates:**
-```
-1. Alice Johnson     - 75.00% ✓
-2. Carol Lee         - 75.00% ✓
-3. Farhan Ali        - 75.00% ✓
+```text
+Python, React, SQL, Docker
 ```
 
-Results are exported to `shortlisted_candidates.csv` for further processing.
+Example shortlisted candidates:
 
-## 📄 Generated Reports
-
-A comprehensive project report is included at:
+```text
+Alice Johnson - 75.00%
+Carol Lee - 75.00%
+Farhan Ali - 75.00%
 ```
+
+Selected candidates are exported to:
+
+```text
+shortlisted_candidates.csv
+```
+
+## Report
+
+A project report PDF is included here:
+
+```text
 docs/LinkedIn_Resume_Shortlisting_Project_Report.pdf
 ```
 
-The report contains:
-- Project overview and objectives
-- System architecture and features
-- Screenshot demonstrations
-- Sample outputs and metrics
-- Use cases and applications
+It contains a summary of the project, screenshots, charts, and output examples suitable for sharing on LinkedIn or adding to a portfolio.
 
-Perfect for adding to your portfolio or sharing on LinkedIn!
+## Future Improvements
 
-## 🔮 Future Enhancements
+- Add PDF and DOCX resume parsing
+- Add a web interface
+- Store candidate data in a database
+- Add natural language processing for smarter skill extraction
+- Support job descriptions as input
+- Add charts directly in the CLI report workflow
 
-- [ ] PDF and DOCX resume parsing
-- [ ] Web-based user interface
-- [ ] Database integration for candidate management
-- [ ] NLP-based skill extraction and normalization
-- [ ] Job description parsing (extract skills automatically)
-- [ ] Embedded charts and visualizations in reports
-- [ ] REST API for integration with ATS systems
-- [ ] Multi-language support
+## Author
 
-## 📝 License
+Narendra Borhade
 
-This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
+## License
 
-## 👤 Author
-
-**Narendra Borhade**
-- GitHub: [@Creator-Naren](https://github.com/Creator-Naren)
-
-## 💬 Contributing
-
-Contributions, issues, and feature requests are welcome! Feel free to open an issue or submit a pull request.
-
----
-
-**Made with ❤️ for HR professionals and developers**
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
